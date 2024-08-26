@@ -1,11 +1,10 @@
 package com.alanduran.course_spring_framework.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Publisher {
@@ -19,11 +18,27 @@ public class Publisher {
     private String state;
     private String zip;
 
+    @OneToMany
+    @JoinColumn(name = "publisher_id")
+    private Set<Book> books = new HashSet<>();
+
+    public Publisher() {
+    }
+
     public Publisher(String name, String addressLine1, String city, String state, String zip) {
+        this.name = name;
         this.addressLine1 = addressLine1;
         this.city = city;
         this.state = state;
         this.zip = zip;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddressLine1() {
@@ -56,6 +71,14 @@ public class Publisher {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     @Override

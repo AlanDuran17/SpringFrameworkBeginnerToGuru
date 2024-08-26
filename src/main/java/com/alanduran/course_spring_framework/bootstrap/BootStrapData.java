@@ -24,27 +24,40 @@ public class BootStrapData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println("Started in Bootstrap");
+        Publisher pub1 = new Publisher("Marvel","Av. Rivadavia", "Buenos Aires", "CABA", "1402");
+        publisherRepository.save(pub1);
+
+        System.out.println("Number of publishers: ".concat(String.valueOf(publisherRepository.count())));
+
         Author stan = new Author("Stan", "Lee");
         Book comic1 = new Book("Old Man Logan", "123123");
         stan.getBooks().add(comic1);
         comic1.getAuthors().add(stan);
 
+        comic1.setPublisher(pub1);
+        pub1.getBooks().add(comic1);
+
         authorRepository.save(stan);
         bookRepository.save(comic1);
+        publisherRepository.save(pub1);
 
         Author ditko = new Author("Steve", "Ditko");
         Book comic2 = new Book("The Amazing Spiderman", "234234");
 
-        ditko.getBooks().add(comic1);
+        ditko.getBooks().add(comic2);
         comic2.getAuthors().add(ditko);
 
-        System.out.println("Started in Bootstrap");
-        System.out.println("Number of books: ".concat(String.valueOf(bookRepository.count())));
+        pub1.getBooks().add(comic2);
+        comic2.setPublisher(pub1);
 
-
-        Publisher pub1 = new Publisher("Marvel","Av. Rivadavia", "Buenos Aires", "CABA", "1402");
+        authorRepository.save(ditko);
+        bookRepository.save(comic2);
         publisherRepository.save(pub1);
 
-        System.out.println("Number of publishers: ".concat(String.valueOf(publisherRepository.count())));
+        System.out.println("Number of books: ".concat(String.valueOf(bookRepository.count())));
+
+        System.out.println("Publisher Number of Books: ".concat(String.valueOf(pub1.getBooks().size())));
+
     }
 }

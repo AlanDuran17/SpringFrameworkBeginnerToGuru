@@ -2,8 +2,10 @@ package com.alanduran.course_spring_framework.bootstrap;
 
 import com.alanduran.course_spring_framework.domain.Author;
 import com.alanduran.course_spring_framework.domain.Book;
+import com.alanduran.course_spring_framework.domain.Publisher;
 import com.alanduran.course_spring_framework.repositories.AuthorRepository;
 import com.alanduran.course_spring_framework.repositories.BookRepository;
+import com.alanduran.course_spring_framework.repositories.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,12 @@ public class BootStrapData implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
-    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
@@ -36,5 +40,11 @@ public class BootStrapData implements CommandLineRunner {
 
         System.out.println("Started in Bootstrap");
         System.out.println("Number of books: ".concat(String.valueOf(bookRepository.count())));
+
+
+        Publisher pub1 = new Publisher("Marvel","Av. Rivadavia", "Buenos Aires", "CABA", "1402");
+        publisherRepository.save(pub1);
+
+        System.out.println("Number of publishers: ".concat(String.valueOf(publisherRepository.count())));
     }
 }
